@@ -4,47 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sana Bir Sürprizim Var ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <style>
-        :root { --night-blue: radial-gradient(circle at center, #0f172a 0%, #000 100%); }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; display: flex; justify-content: center; align-items: center; touch-action: manipulation; }
+        :root { 
+            --night-blue: radial-gradient(circle at center, #0a1128 0%, #000 100%);
+            --paper-color: #f8f1e7;
+        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; display: flex; justify-content: center; align-items: center; }
         
         /* Yıldızlar */
-        #stars { position: absolute; width: 100%; height: 100%; display: none; pointer-events: none; }
-        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--duration) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        #stars { position: absolute; width: 100%; height: 100%; display: none; pointer-events: none; z-index: 1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle var(--duration) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
 
         /* Mumlar */
-        #stage1 { position: absolute; text-align: center; z-index: 10; transition: opacity 1.5s; cursor: pointer; }
-        .candle-box { display: flex; gap: 12px; align-items: flex-end; }
-        .candle { width: 12px; background: #fff5e6; border-radius: 3px; position: relative; box-shadow: inset -2px 0 5px rgba(0,0,0,0.1); }
-        .flame { width: 10px; height: 18px; background: #ffaa00; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #ffaa00; animation: flicker 0.1s infinite alternate; }
-        @keyframes flicker { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1); } }
-        .instruction { color: #fff; font-family: 'Dancing Script', cursive; font-size: 1.6rem; margin-top: 30px; opacity: 0.6; letter-spacing: 2px; }
+        #stage1 { position: absolute; text-align: center; z-index: 20; transition: opacity 1.5s; cursor: pointer; }
+        .candle-box { display: flex; gap: 10px; align-items: flex-end; }
+        .candle { width: 10px; background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0); border-radius: 2px; position: relative; }
+        .flame { width: 8px; height: 15px; background: radial-gradient(ellipse at bottom, #ffea00 0%, #ff8800 100%); position: absolute; top: -18px; left: 50%; transform: translateX(-50%); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 10px #ffaa00; animation: flicker 0.1s infinite alternate; }
+        @keyframes flicker { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1) rotate(1deg); } }
+        .instruction { color: #fff; font-family: 'Dancing Script', cursive; font-size: 1.4rem; margin-top: 25px; opacity: 0.5; letter-spacing: 4px; }
 
-        /* Dal ve Baykuş */
-        #branch { position: absolute; right: -20px; top: 15%; width: 250px; height: 15px; background: #2b1d0e; border-radius: 20px; display: none; transform: rotate(-5deg); z-index: 5; }
-        #owl-container { position: absolute; left: -150px; top: 30%; display: none; z-index: 100; font-size: 55px; }
-        .held-letter { font-size: 25px; position: absolute; bottom: -5px; left: 10px; }
-
-        @keyframes flyToBranch {
-            0% { left: -150px; top: 30%; }
-            45% { left: 45%; top: 45%; }
-            100% { left: calc(100% - 180px); top: 11%; }
+        /* Gerçekçi Dal */
+        #branch { 
+            position: absolute; right: -50px; top: 20%; width: 280px; height: 12px;
+            background: linear-gradient(90deg, #3d2b1f 0%, #1a120b 100%);
+            border-radius: 50% 0 0 50%; display: none; transform: rotate(-8deg); z-index: 5;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+        }
+        #branch::before { /* Küçük sürgün dalı */
+            content: ''; position: absolute; top: -15px; left: 40px; width: 60px; height: 6px;
+            background: #2b1d0e; transform: rotate(-30deg); border-radius: 10px;
         }
 
-        /* Zarf */
+        /* Baykuş Sahnesi */
+        #owl-container { position: absolute; left: -150px; top: 35%; display: none; z-index: 100; font-size: 50px; }
+        .held-letter { font-size: 22px; position: absolute; bottom: -5px; left: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+
+        @keyframes flyToBranch {
+            0% { left: -150px; top: 35%; transform: rotate(5deg); }
+            40% { left: 48%; top: 48%; transform: rotate(0deg); }
+            100% { left: calc(100% - 210px); top: 12.5%; transform: rotate(-5deg); }
+        }
+
+        /* Zarif Mektup */
         .envelope-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); display: none; z-index: 50; cursor: pointer; }
-        .envelope { width: 150px; height: 100px; background: #c2946a; position: relative; }
-        .envelope::after { content: ''; position: absolute; top: 0; left: 0; border-left: 75px solid transparent; border-right: 75px solid transparent; border-top: 55px solid #a67c52; transform-origin: top; transition: 0.6s; }
+        .envelope { width: 100px; height: 65px; background: #c2946a; position: relative; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .envelope::after { content: ''; position: absolute; top: 0; left: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-top: 35px solid #a67c52; transform-origin: top; transition: 0.6s; }
         .opened.envelope::after { transform: rotateX(180deg); }
-        .paper { width: 130px; height: 0; background: #fff; position: absolute; left: 10px; bottom: 5px; transition: 1s 0.5s; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .opened .paper { height: 200px; bottom: 110px; }
-        .paper-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #222; text-align: center; padding: 10px; }
+        
+        .paper { 
+            width: 85px; height: 0; background: var(--paper-color); position: absolute; left: 7.5px; bottom: 5px; 
+            transition: 1s 0.5s; overflow: hidden; display: flex; align-items: center; justify-content: center;
+            border-radius: 1px;
+        }
+        .opened .paper { height: 130px; bottom: 75px; box-shadow: 0 -5px 15px rgba(0,0,0,0.3); }
+        .paper-text { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: #444; text-align: center; padding: 10px; line-height: 1.4; font-weight: 400; }
 
         .night-active { background: var(--night-blue) !important; transition: background 3s; }
-        .confetti { position: absolute; width: 8px; height: 8px; z-index: 60; animation: fall 3s linear forwards; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
     </style>
 </head>
 <body onclick="activateAudio()">
@@ -57,6 +74,7 @@
     </div>
 
     <div id="branch"></div>
+
     <div id="owl-container">
         <div class="owl">🦉</div>
         <div id="held-letter" class="held-letter">✉️</div>
@@ -72,52 +90,46 @@
 
     <script>
         let audioStarted = false;
-        let audioCtx;
-        let analyzer;
 
-        // Mumları oluştur
+        // Estetik Mum Dizilimi (9 adet - Tek sıra zarif durur)
         const row = document.getElementById('candleRow');
-        for(let i=0; i<13; i++) {
-            const h = 60 + Math.sin(i * 0.5) * 15;
+        for(let i=0; i<9; i++) {
+            const h = 50 + Math.sin(i * 0.8) * 12;
             const c = document.createElement('div');
             c.className = 'candle'; c.style.height = h + 'px';
             c.innerHTML = '<div class="flame"></div>';
             row.appendChild(c);
         }
 
-        // Yıldızları oluştur
+        // Yıldız Tozu
         const starCont = document.getElementById('stars');
-        for(let i=0; i<80; i++) {
+        for(let i=0; i<120; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            const size = Math.random() * 2 + 1 + 'px';
+            const size = Math.random() * 1.5 + 'px';
             star.style.width = size; star.style.height = size;
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            star.style.setProperty('--duration', Math.random() * 3 + 1 + 's');
             starCont.appendChild(star);
         }
 
         async function activateAudio() {
             if (audioStarted) return;
             audioStarted = true;
-            
             try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                analyzer = audioCtx.createAnalyser();
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const analyzer = audioCtx.createAnalyser();
                 const src = audioCtx.createMediaStreamSource(stream);
                 src.connect(analyzer);
-                
                 const data = new Uint8Array(analyzer.frequencyBinCount);
                 
                 function detect() {
                     if (!audioStarted) return;
                     analyzer.getByteFrequencyData(data);
                     let val = data.reduce((a,b) => a+b) / data.length;
-                    
-                    // Hassasiyet eşiği: 40 (Daha kolay sönmesi için düşürüldü)
-                    if(val > 40) { 
+                    if(val > 38) { // Hassas algılama
                         startSequence(); 
                         stream.getTracks().forEach(t => t.stop());
                         audioStarted = false;
@@ -126,10 +138,9 @@
                     requestAnimationFrame(detect);
                 }
                 detect();
-                document.getElementById('status').innerText = "şimdi üfle...";
+                document.getElementById('status').innerText = "şimdi...";
             } catch(e) {
-                document.getElementById('status').innerText = "üfle (veya dokun).";
-                document.getElementById('stage1').onclick = startSequence;
+                document.getElementById('status').onclick = startSequence;
             }
         }
 
@@ -143,33 +154,20 @@
                 
                 const owl = document.getElementById('owl-container');
                 owl.style.display = 'block';
-                owl.style.animation = 'flyToBranch 6s ease-in-out forwards';
+                owl.style.animation = 'flyToBranch 7s cubic-bezier(0.4, 0, 0.2, 1) forwards';
                 
                 setTimeout(() => {
-                    document.getElementById('held-letter').style.display = 'none';
+                    document.getElementById('held-letter').style.opacity = '0';
                     const wrap = document.getElementById('wrapper');
                     wrap.style.display = 'block';
-                    setTimeout(() => wrap.style.transform = 'translate(-50%, -50%) scale(1.5)', 50);
-                }, 2700);
+                    setTimeout(() => wrap.style.transform = 'translate(-50%, -50%) scale(1.3)', 50);
+                }, 2800);
             }, 1000);
         }
 
         function openLetter(e) {
             e.stopPropagation();
             document.getElementById('env').classList.add('opened');
-            setTimeout(createConfetti, 1000);
-        }
-
-        function createConfetti() {
-            for(let i=0; i<40; i++) {
-                const c = document.createElement('div');
-                c.className = 'confetti';
-                c.style.backgroundColor = ['#ffd700', '#daa520', '#fff', '#fdf5e6'][Math.floor(Math.random()*4)];
-                c.style.left = (Math.random() > 0.5 ? Math.random()*20 : 80+Math.random()*20) + 'vw';
-                c.style.top = Math.random() * 20 + 'vh';
-                document.body.appendChild(c);
-                setTimeout(() => c.remove(), 3000);
-            }
         }
     </script>
 </body>
