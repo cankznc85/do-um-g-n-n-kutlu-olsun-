@@ -4,61 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sürpriz ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Montserrat:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --night-blue: radial-gradient(circle at center, #0a1128 0%, #000 100%); --paper-color: #fcfaf7; }
+        :root { 
+            --night-blue: radial-gradient(circle at bottom, #1a2a6c, #b21f1f, #fdbb2d);
+            --paper: #fffef0;
+        }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; display: flex; justify-content: center; align-items: center; font-family: 'Montserrat', sans-serif; color: white; }
-        
-        /* Başlangıç Yazısı */
-        #intro-text { position: absolute; font-family: 'Dancing Script', cursive; font-size: 1.8rem; text-align: center; width: 85%; opacity: 0; transition: opacity 1.5s; z-index: 200; pointer-events: none; }
-        #click-me { position: absolute; bottom: 20%; font-size: 0.8rem; opacity: 0.5; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.7; } }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            overflow: hidden; background: #000; 
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Poppins', sans-serif;
+        }
 
-        /* Konfeti */
-        .confetti { position: absolute; width: 8px; height: 8px; z-index: 60; animation: fall 3s linear forwards; }
-        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: 0; } }
+        /* Başlangıç Ekranı */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 1000; display: flex; 
+            flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s;
+        }
+        #intro-text { 
+            font-family: 'Great Vibes', cursive; font-size: 2.2rem; 
+            color: #fff; text-align: center; opacity: 0; width: 80%;
+        }
+        .btn-start {
+            margin-top: 30px; padding: 12px 25px; border: 1px solid #fff;
+            color: #fff; background: transparent; border-radius: 50px;
+            font-size: 0.8rem; letter-spacing: 2px; cursor: pointer;
+        }
 
-        /* Sahne Objeleri */
-        #stars { position: absolute; width: 100%; height: 100%; display: none; z-index: 1; }
-        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle var(--duration) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+        /* Gece ve Yıldızlar */
+        #stars { position: absolute; width: 100%; height: 100%; opacity: 0; transition: 3s; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: blink var(--d) infinite; }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        #stage1 { position: absolute; text-align: center; z-index: 50; display: none; opacity: 0; transition: opacity 1s; width: 100%; }
-        .candle-box { display: flex; gap: 8px; align-items: flex-end; justify-content: center; }
-        .candle { width: 8px; background: #fff; border-radius: 2px; position: relative; }
-        .flame { width: 7px; height: 12px; background: orange; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 8px orange; animation: flicker 0.1s infinite alternate; }
-        @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.1); } }
+        /* Estetik Dal */
+        #branch {
+            position: absolute; right: -20px; top: 15%; width: 250px; height: 15px;
+            background: linear-gradient(to bottom, #4b3621, #2d1e12);
+            border-radius: 20px 0 0 20px; transform: rotate(-5deg);
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.5);
+            display: none; z-index: 5;
+        }
+        #branch::before {
+            content: ''; position: absolute; top: -15px; left: 40px;
+            width: 80px; height: 8px; background: #3d2b1f;
+            transform: rotate(-30deg); border-radius: 10px;
+        }
 
-        #branch { position: absolute; right: -30px; top: 18%; width: 220px; height: 10px; background: linear-gradient(90deg, #3d2b1f, #1a120b); border-radius: 50% 0 0 50%; display: none; z-index: 5; transform: rotate(-8deg); }
-        #owl-container { position: absolute; left: -100px; top: 35%; display: none; z-index: 10; font-size: 45px; }
+        /* Baykuş Sahnesi */
+        #owl {
+            position: absolute; left: -100px; top: 50%; font-size: 50px;
+            z-index: 10; transition: all 5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+        #mini-letter { font-size: 22px; position: absolute; bottom: 0; left: 15px; transition: 0.5s; }
 
-        .envelope-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); display: none; z-index: 100; cursor: pointer; transition: 0.8s; }
-        .envelope { width: 120px; height: 80px; background: #c2946a; position: relative; }
-        .envelope::after { content: ''; position: absolute; top: 0; left: 0; border-left: 60px solid transparent; border-right: 60px solid transparent; border-top: 45px solid #a67c52; transition: 0.6s; z-index: 2; transform-origin: top; }
+        /* Mektup ve Zarf */
+        .envelope-wrapper {
+            position: absolute; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 100; transition: 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .envelope {
+            width: 130px; height: 90px; background: #d4a373;
+            position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-radius: 2px;
+        }
+        .envelope::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            border-left: 65px solid transparent; border-right: 65px solid transparent;
+            border-top: 50px solid #bc8a5f; transform-origin: top; transition: 0.6s; z-index: 2;
+        }
         .opened.envelope::after { transform: rotateX(180deg); }
-        .paper { width: 105px; height: 0; background: var(--paper-color); position: absolute; left: 7.5px; bottom: 5px; transition: 1s 0.6s; overflow: hidden; z-index: 3; display: flex; align-items: center; justify-content: center; }
-        .opened .paper { height: 190px; bottom: 45px; box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
-        .paper-text { font-family: 'Dancing Script', cursive; font-size: 0.9rem; color: #222; text-align: center; padding: 15px; font-weight: 600; }
+        
+        .paper {
+            width: 115px; height: 20px; background: var(--paper);
+            position: absolute; left: 7.5px; bottom: 10px;
+            transition: 1s 0.5s; z-index: 3; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .opened .paper { height: 220px; bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .paper-text {
+            font-family: 'Great Vibes', cursive; font-size: 1.1rem;
+            color: #333; text-align: center; padding: 20px; line-height: 1.5;
+        }
 
-        .night-active { background: var(--night-blue) !important; transition: background 3s; }
+        /* Mumlar */
+        #candles { display: none; text-align: center; z-index: 50; }
+        .c-box { display: flex; gap: 10px; justify-content: center; align-items: flex-end; }
+        .c { width: 10px; background: #eee; border-radius: 3px; position: relative; }
+        .f { width: 8px; height: 15px; background: #ff9d00; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 10px #ff9d00; animation: bounce 0.2s infinite; }
+        @keyframes bounce { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1); } }
     </style>
 </head>
-<body onclick="activateFlow()">
+<body>
 
-    <div id="click-me">Başlamak için ekrana dokun ✨</div>
-    <div id="intro-text">İyiki varsın doğum günün kutlu olsun 💞</div>
+    <div id="overlay">
+        <div id="intro-text">İyiki varsın doğum günün kutlu olsun 💞</div>
+        <button class="btn-start" onclick="startApp()">SÜRPRİZİ BAŞLAT</button>
+    </div>
+
     <div id="stars"></div>
 
-    <div id="stage1">
-        <div class="candle-box" id="candleRow"></div>
-        <p style="color:white; margin-top:20px; font-family:'Dancing Script'">şimdi üfle...</p>
+    <div id="candles">
+        <div class="c-box" id="cRow"></div>
+        <p style="color: #fff; font-size: 0.9rem; margin-top: 20px; letter-spacing: 3px;">ÜFLE...</p>
     </div>
 
     <div id="branch"></div>
-    <div id="owl-container">🦉<div style="font-size:20px; position:absolute; bottom:-5px; left:10px;">✉️</div></div>
+    <div id="owl">🦉<div id="mini-letter">✉️</div></div>
 
-    <div id="wrapper" class="envelope-wrapper" onclick="openLetter(event)">
+    <div id="wrapper" class="envelope-wrapper" onclick="openMe()">
         <div id="env" class="envelope">
             <div class="paper">
                 <div class="paper-text">Seninle geçirdiğim her saniye çok değerliydi iyiki varsın tekrardan doğum günün kutlu olsun nice mutlu senelere. Umarım hediyelerimi beğenirsin. öpüyorum seni..</div>
@@ -67,43 +125,31 @@
     </div>
 
     <script>
-        let flowStarted = false;
-        
-        function setup() {
-            const row = document.getElementById('candleRow');
-            for(let i=0; i<7; i++) {
-                const c = document.createElement('div');
-                c.className = 'candle'; c.style.height = (45 + Math.sin(i)*10) + 'px';
-                c.innerHTML = '<div class="flame"></div>';
-                row.appendChild(c);
-            }
-            const starCont = document.getElementById('stars');
-            for(let i=0; i<60; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
-                s.style.width = s.style.height = Math.random()*2+'px';
-                s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
-                s.style.setProperty('--duration', Math.random()*3+1+'s');
-                starCont.appendChild(s);
-            }
+        function startApp() {
+            const btn = document.querySelector('.btn-start');
+            const intro = document.getElementById('intro-text');
+            btn.style.display = 'none';
+            intro.style.opacity = '1';
+            
+            setTimeout(() => {
+                document.getElementById('overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('overlay').style.display = 'none';
+                    showCandles();
+                }, 1000);
+            }, 4000);
         }
 
-        function activateFlow() {
-            if (flowStarted) return;
-            flowStarted = true;
-            document.getElementById('click-me').style.display = 'none';
-            const intro = document.getElementById('intro-text');
-            intro.style.opacity = '1';
-
-            setTimeout(() => {
-                intro.style.opacity = '0';
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                    const s1 = document.getElementById('stage1');
-                    s1.style.display = 'block';
-                    setTimeout(() => { s1.style.opacity = '1'; startMic(); }, 50);
-                }, 1500);
-            }, 4000);
+        function showCandles() {
+            const row = document.getElementById('cRow');
+            for(let i=0; i<6; i++) {
+                const c = document.createElement('div');
+                c.className = 'c'; c.style.height = (50 + Math.random()*20) + 'px';
+                c.innerHTML = '<div class="f"></div>';
+                row.appendChild(c);
+            }
+            document.getElementById('candles').style.display = 'block';
+            startMic();
         }
 
         async function startMic() {
@@ -113,54 +159,60 @@
                 const analyzer = ctx.createAnalyser();
                 ctx.createMediaStreamSource(stream).connect(analyzer);
                 const data = new Uint8Array(analyzer.frequencyBinCount);
-                function check() {
+                
+                function loop() {
                     analyzer.getByteFrequencyData(data);
                     if(data.reduce((a,b)=>a+b)/data.length > 35) {
-                        confetti();
-                        finish();
                         stream.getTracks().forEach(t => t.stop());
-                    } else { requestAnimationFrame(check); }
+                        blowOut();
+                    } else { requestAnimationFrame(loop); }
                 }
-                check();
-            } catch(e) { document.getElementById('stage1').onclick = () => { confetti(); finish(); }; }
+                loop();
+            } catch(e) { document.body.onclick = blowOut; }
         }
 
-        function confetti() {
-            for(let i=0; i<50; i++) {
-                const c = document.createElement('div');
-                c.className = 'confetti';
-                c.style.backgroundColor = ['#ffd700','#ff69b4','#fff'][Math.floor(Math.random()*3)];
-                c.style.left = Math.random()*100+'vw'; c.style.top = '-10px';
-                c.style.animationDuration = (Math.random()*2+2)+'s';
-                document.body.appendChild(c);
-                setTimeout(() => c.remove(), 4000);
-            }
-        }
-
-        function finish() {
-            document.getElementById('stage1').style.opacity = '0';
+        function blowOut() {
+            document.getElementById('candles').style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('stage1').style.display = 'none';
-                document.body.classList.add('night-active');
-                document.getElementById('stars').style.display = 'block';
+                document.getElementById('candles').style.display = 'none';
+                document.body.style.background = 'var(--night-blue)';
+                document.getElementById('stars').style.opacity = '1';
                 document.getElementById('branch').style.display = 'block';
-                const owl = document.getElementById('owl-container');
-                owl.style.display = 'block';
-                owl.style.transition = 'all 6s ease-in-out';
-                setTimeout(() => {
-                    owl.style.left = 'calc(100% - 140px)';
-                    owl.style.top = '11%';
-                }, 100);
-                setTimeout(() => {
-                    const w = document.getElementById('wrapper');
-                    w.style.display = 'block';
-                    setTimeout(() => w.style.transform = 'translate(-50%, -50%) scale(1.6)', 50);
-                }, 2600);
+                flyOwl();
             }, 1000);
         }
 
-        function openLetter(e) { e.stopPropagation(); document.getElementById('env').classList.add('opened'); }
-        window.onload = setup;
+        function flyOwl() {
+            const owl = document.getElementById('owl');
+            const mini = document.getElementById('mini-letter');
+            owl.style.left = 'calc(100% - 150px)';
+            owl.style.top = '10%';
+
+            // Baykuş dala konunca mektubu bıraksın
+            setTimeout(() => {
+                mini.style.transform = 'translateY(200px) rotate(360deg)';
+                mini.style.opacity = '0';
+                
+                setTimeout(() => {
+                    const wrap = document.getElementById('wrapper');
+                    wrap.style.display = 'block';
+                    setTimeout(() => wrap.style.transform = 'translate(-50%, -50%) scale(1.8)', 100);
+                }, 800);
+            }, 5000);
+        }
+
+        function openMe() { document.getElementById('env').classList.add('opened'); }
+
+        // Yıldız oluşturma
+        const sc = document.getElementById('stars');
+        for(let i=0; i<80; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            s.style.width = s.style.height = Math.random()*3+'px';
+            s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
+            s.style.setProperty('--d', Math.random()*3+1+'s');
+            sc.appendChild(s);
+        }
     </script>
 </body>
 </html>
