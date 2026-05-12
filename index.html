@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İyi ki Doğdun ✨</title>
-    <!-- Zarif Fontlar -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,84 +12,57 @@
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: center;
             font-family: 'Cinzel', serif;
             transition: background 4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Sahne 1: Mumlar */
+        /* 16 Mum Düzeni */
         .candle-container {
-            display: flex;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 15px;
             align-items: flex-end;
-            transition: opacity 2s ease;
+            transition: opacity 1.5s ease;
             z-index: 5;
         }
 
         .candle {
-            width: 18px;
-            background: linear-gradient(to bottom, #eeeeee 0%, #cccccc 100%);
-            border-radius: 3px;
-            position: relative;
-            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1);
+            width: 12px; height: 70px;
+            background: linear-gradient(to bottom, #fff, #ddd);
+            border-radius: 2px; position: relative;
         }
 
         .flame {
-            width: 12px;
-            height: 22px;
-            background: #ff9d00;
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
+            width: 10px; height: 18px;
+            background: #ff9d00; position: absolute;
+            top: -20px; left: 50%; transform: translateX(-50%);
             border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
-            box-shadow: 0 0 20px #ff9d00, 0 0 40px #ff5e00;
-            animation: flicker 0.15s infinite alternate;
+            box-shadow: 0 0 15px #ff9d00;
+            animation: flicker 0.1s infinite alternate;
         }
 
         @keyframes flicker {
-            0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; }
-            100% { transform: translateX(-50%) scale(1.1) rotate(1deg); opacity: 1; }
+            0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
         }
 
-        /* "üfle." Yazısı */
         .instruction {
-            position: absolute;
-            bottom: 15%;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            cursor: pointer;
-            transition: all 0.8s ease;
+            position: absolute; bottom: 15%;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem; letter-spacing: 3px;
             font-family: 'Great Vibes', cursive;
+            text-align: center; cursor: pointer;
         }
 
-        .instruction:hover {
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-
-        /* Sahne 2: Baykuş ve Gece */
-        .night-active {
-            background: var(--night-blue) !important;
-        }
+        /* Sahne 2 & 3 */
+        .night-active { background: var(--night-blue) !important; }
 
         .owl {
-            position: absolute;
-            font-size: 60px;
-            left: -150px;
-            top: 20%;
-            display: none;
-            filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
-            z-index: 10;
+            position: absolute; font-size: 60px;
+            left: -150px; top: 20%; display: none; z-index: 10;
         }
 
         @keyframes flyAcross {
@@ -100,107 +72,108 @@
             100% { left: 120%; top: 10%; transform: rotate(-10deg); }
         }
 
-        /* Mektup */
         .letter {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            font-size: 80px;
-            cursor: pointer;
-            display: none;
-            z-index: 11;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+            font-size: 80px; cursor: pointer; display: none; z-index: 11;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .letter.show {
-            display: block;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        /* Final Mesajı */
-        .message-box {
-            display: none;
-            text-align: center;
-            z-index: 12;
-            padding: 20px;
-        }
+        .letter.show { display: block; transform: translate(-50%, -50%) scale(1); }
 
         .message-box h1 {
-            color: #f3e5ab;
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
-            opacity: 0;
-            animation: fadeIn 3s forwards;
+            color: #f3e5ab; font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem; text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+            display: none; animation: fadeIn 3s forwards;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- SAHNE 1 -->
     <div id="candle-stage" class="candle-container">
-        <div class="candle" style="height: 80px;"><div class="flame"></div></div>
-        <div class="candle" style="height: 110px;"><div class="flame"></div></div>
-        <div class="candle" style="height: 90px;"><div class="flame"></div></div>
+        <!-- 16 Adet Mum Döngüyle Gelecek -->
     </div>
-    <p id="blow-text" class="instruction" onclick="makeMagic()">üfle.</p>
+    
+    <p id="blow-text" class="instruction">Mikrofona izin ver ve üfle...</p>
 
-    <!-- SAHNE 2 -->
     <div id="owl-spirit" class="owl">🦉</div>
     <div id="magic-letter" class="letter" onclick="openGift()">✉️</div>
-
-    <!-- SAHNE 3 -->
-    <div id="final-stage" class="message-box">
-        <h1>İyiki doğdun yavrum</h1>
-    </div>
+    <div id="final-stage" class="message-box"><h1 id="msg">İyiki doğdun yavrum</h1></div>
 
     <script>
+        // 16 mumu oluştur
+        const container = document.getElementById('candle-stage');
+        for(let i=0; i<16; i++) {
+            const candle = document.createElement('div');
+            candle.className = 'candle';
+            candle.innerHTML = '<div class="flame"></div>';
+            container.appendChild(candle);
+        }
+
+        // Mikrofon Algılama Sistemi
+        async function initAudio() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                function checkBlow() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
+                    let average = sum / bufferLength;
+
+                    // Hassasiyet eşiği (40-60 arası idealdir)
+                    if (average > 50) { 
+                        makeMagic();
+                        stream.getTracks().forEach(track => track.stop()); // Mikrofonu kapat
+                        return; 
+                    }
+                    requestAnimationFrame(checkBlow);
+                }
+                checkBlow();
+            } catch (err) {
+                console.log("Mikrofon izni reddedildi, tıklama moduna geçiliyor.");
+                document.getElementById('blow-text').innerText = "Cihaz mikrofona izin vermedi, buraya tıkla.";
+                document.getElementById('blow-text').onclick = makeMagic;
+            }
+        }
+
         function makeMagic() {
-            // Mumları söndür
             document.getElementById('candle-stage').style.opacity = '0';
             document.getElementById('blow-text').style.opacity = '0';
             
-            // Geceye geçiş yap
             setTimeout(() => {
                 document.body.classList.add('night-active');
                 document.getElementById('candle-stage').classList.add('hidden');
                 document.getElementById('blow-text').classList.add('hidden');
                 
-                // Baykuşu gönder
                 const owl = document.getElementById('owl-spirit');
                 owl.style.display = 'block';
                 owl.style.animation = 'flyAcross 6s ease-in-out forwards';
 
-                // Mektup tam ortada düşer gibi görünsün
                 setTimeout(() => {
                     const letter = document.getElementById('magic-letter');
                     letter.classList.add('show');
-                    letter.style.display = 'block';
                 }, 2800);
-
-            }, 1500);
+            }, 1000);
         }
 
         function openGift() {
-            const letter = document.getElementById('magic-letter');
-            letter.style.transform = 'translate(-50%, -50%) scale(0)';
-            
-            setTimeout(() => {
-                letter.classList.add('hidden');
-                const final = document.getElementById('final-stage');
-                final.style.display = 'block';
-            }, 500);
+            document.getElementById('magic-letter').classList.add('hidden');
+            document.getElementById('msg').style.display = 'block';
         }
+
+        // Sayfa yüklendiğinde mikrofonu başlat
+        window.onload = initAudio;
     </script>
 </body>
-  </html>
-  
+</html>
